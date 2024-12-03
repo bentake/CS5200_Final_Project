@@ -8,51 +8,47 @@
     </a>
   </div>
 
-  <div class="card border-0 shadow-sm">
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-bordered align-middle">
-          <thead class="table-light">
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Shift Start</th>
-              <th scope="col">Shift End</th>
-              <th scope="col">Lot ID</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for staff in staff_members %}
-            <tr>
-              <td class="fw-bold">{{ staff.staff_id }}</td>
-              <td>{{ staff.name }}</td>
-              <td>{{ staff.shift_start|date:"g:i A" }}</td>
-              <td>{{ staff.shift_end|date:"g:i A" }}</td>
-              <td>{{ staff.lot.lot_id }}</td>
-              <td>
-                <div class="d-flex gap-2">
-                  <a href="{% url 'staff_update' staff.staff_id %}" class="btn btn-outline-warning btn-sm rounded-pill">
-                    <i class="bi bi-pencil"></i> Edit
-                  </a>
-                  <form action="{% url 'staff_delete' staff.staff_id %}" method="POST" class="d-inline">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill">
-                      <i class="bi bi-trash"></i> Delete
-                    </button>
-                  </form>
-                </div>
-              </td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="6" class="text-center text-muted">No staff members found.</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Shift Start</th>
+          <th scope="col">Shift End</th>
+          <th scope="col">Lot ID</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for staff in staff_members %}
+        <tr>
+          <td class="fw-bold">{{ staff.staff_id }}</td>
+          <td>{{ staff.name }}</td>
+          <td>{{ staff.shift_start|date:"g:i A" }}</td>
+          <td>{{ staff.shift_end|date:"g:i A" }}</td>
+          <td>{{ staff.lot.lot_id }}</td>
+          <td>
+            <div class="d-flex gap-2">
+              <a href="{% url 'staff_update' staff.staff_id %}" class="btn btn-outline-warning btn-sm rounded-pill">
+                <i class="bi bi-pencil"></i> Edit
+              </a>
+              <form action="{% url 'staff_delete' staff.staff_id %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill">
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center text-muted">No staff members found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
 {% endblock %}
