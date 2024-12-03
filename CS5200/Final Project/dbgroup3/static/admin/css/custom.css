@@ -1,0 +1,37 @@
+.navbar-custom {
+    background-color: #2a2a72; 
+    color: #ffffff;
+  }
+  
+  .navbar-custom .nav-link {
+    color: #ffffff;
+  }
+  
+  .navbar-custom .nav-link:hover {
+    color: #ff5722; 
+  }
+  
+  .sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 56px; 
+    left: 0;
+    padding-top: 20px;
+    border-right: 1px solid #ddd;
+  }
+  
+  .sidebar .nav-link {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .sidebar .nav-link.active {
+    color: #2a2a72;
+    font-weight: bold;
+  }
+  
+  .footer {
+    background-color: #2a2a72;
+    color: #ffffff;
+  }
+  

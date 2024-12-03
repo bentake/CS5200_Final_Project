@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+  <h1 class="mb-4">Northeastern Parking Management</h1>
+
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body text-center">
+          <h6 class="card-subtitle text-muted mb-2">Registered Customers</h6>
+          <h2 class="card-title display-5 text-primary">{{ total_customers }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body text-center">
+          <h6 class="card-subtitle text-muted mb-2">Total Vehicles</h6>
+          <h2 class="card-title display-5 text-success">{{ total_vehicles }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body text-center">
+          <h6 class="card-subtitle text-muted mb-2">Currently Parked</h6>
+          <h2 class="card-title display-5 text-warning">{{ active_parkings }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <h3 class="mb-4">Parking Lot Overview</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th>Lot ID</th>
+            <th>Address</th>
+            <th>Total Spots</th>
+            <th>Available Spots</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lot in parking_lots %}
+          <tr>
+            <td>{{ lot.lot_id }}</td>
+            <td>{{ lot.street }}, {{ lot.city }}</td>
+            <td>{{ lot.number_of_spots }}</td>
+            <td>
+              <span class="{% if lot.available_spots == 0 %}text-danger{% elif lot.available_spots < 5 %}text-warning{% else %}text-success{% endif %}">
+                {{ lot.available_spots }}
+              </span>
+            </td>
+            <td>
+              <a
+                href="{% url 'parking_status' lot.lot_id %}"
+                class="btn btn-outline-primary btn-sm"
+                >Details</a
+              >
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center text-muted">
+              No parking lots available at this time.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

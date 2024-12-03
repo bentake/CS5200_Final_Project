@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold text-primary">Customers</h1>
+    <a href="{% url 'customer_create' %}" class="btn btn-success rounded-pill px-4">
+      <i class="bi bi-person-plus me-2"></i> Add Customer
+    </a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for customer in customers %}
+        <tr>
+          <td class="fw-bold">{{ customer.customer_id }}</td>
+          <td>{{ customer.first_name }} {{ customer.last_name }}</td>
+          <td>
+            {{ customer.street }}<br />
+            {{ customer.city }}, {{ customer.state }} {{ customer.zip }}
+          </td>
+          <td>
+            <div class="d-flex gap-2">
+              <a href="{% url 'customer_detail' customer.customer_id %}" class="btn btn-outline-primary btn-sm rounded-pill">
+                <i class="bi bi-eye me-1"></i> View
+              </a>
+              <a href="{% url 'customer_update' customer.customer_id %}" class="btn btn-outline-warning btn-sm rounded-pill">
+                <i class="bi bi-pencil me-1"></i> Edit
+              </a>
+              <form action="{% url 'customer_delete' customer.customer_id %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill">
+                  <i class="bi bi-trash me-1"></i> Delete
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-center text-muted">
+            No customers found.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

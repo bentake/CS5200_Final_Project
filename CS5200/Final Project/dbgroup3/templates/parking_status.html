@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-primary fw-bold">
+      Parking Status {% if lot %}for Lot {{ lot.lot_id }}{% endif %}
+    </h1>
+    <div class="d-flex gap-2">
+      <a href="{% if lot %}{% url 'create_parking_record_lot' lot.lot_id %}{% else %}{% url 'create_parking_record' %}{% endif %}" class="btn btn-success rounded-pill px-4">
+        <i class="bi bi-plus-circle me-2"></i> New Parking
+      </a>
+      {% if not lot %}
+      <div class="dropdown">
+        <button class="btn btn-secondary rounded-pill px-4 dropdown-toggle" type="button" id="lotDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Select Lot
+        </button>
+        <div class="dropdown-menu" aria-labelledby="lotDropdown">
+          {% for parking_lot in parking_lots %}
+          <a class="dropdown-item" href="{% url 'parking_status_with_lot' parking_lot.lot_id %}">
+            Lot {{ parking_lot.lot_id }}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>License Plate</th>
+          <th>Spot ID</th>
+          <th>Time Entered</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if current_parkings %}
+        {% for parking in current_parkings %}
+        <tr>
+          <td>{{ parking.license_plate.license_plate }}</td>
+          <td>{{ parking.spot.spot_id }}</td>
+          <td>{{ parking.time_entered|date:"M d, Y, g:i a" }}</td>
+          <td>{{ parking.lot.street }}, {{ parking.lot.city }}</td>
+          <td><span class="badge bg-success">Active</span></td>
+          <td>
+            <a href="{% url 'end_parking' parking.record_id %}" class="btn btn-outline-danger btn-sm rounded-pill">
+              <i class="bi bi-x-circle"></i> End Parking
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="6" class="text-center text-muted">No active parkings found.</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

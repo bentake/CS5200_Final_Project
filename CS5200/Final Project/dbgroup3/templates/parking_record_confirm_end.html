@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <h2 class="text-danger fw-bold">End Parking</h2>
+      <p class="mb-4">
+        Are you sure you want delete this parking record?
+      </p>
+      <ul class="list-group list-group-flush mb-4">
+        <li class="list-group-item"><strong>License Plate:</strong> {{ parking_record.license_plate }}</li>
+        <li class="list-group-item"><strong>Spot:</strong> {{ parking_record.spot }}</li>
+        <li class="list-group-item"><strong>Time Entered:</strong> {{ parking_record.time_entered }}</li>
+      </ul>
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger rounded-pill px-4 me-3">
+          Confirm End Parking
+        </button>
+        <a href="{% url 'parking_status' parking_record.lot.lot_id|default_if_none:'' %}" class="btn btn-secondary rounded-pill px-4">
+          Cancel
+        </a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

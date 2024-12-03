@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <h2 class="text-primary fw-bold">
+        New Parking
+      </h2>
+      <form method="post" class="mt-4">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group mb-3">
+          <label for="{{ field.id_for_label }}" class="fw-bold">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+          <div class="alert alert-danger mt-2">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+        <div class="d-flex gap-3">
+          <button type="submit" class="btn btn-success rounded-pill px-4">
+            Create Parking Record
+          </button>
+          {% if lot_id %}
+          <a href="{% url 'parking_status_with_lot' lot_id %}" class="btn btn-secondary rounded-pill px-4">Cancel</a>
+          {% else %}
+          <a href="{% url 'parking_status' %}" class="btn btn-secondary rounded-pill px-4">Cancel</a>
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

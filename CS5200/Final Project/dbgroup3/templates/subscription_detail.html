@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+  <h1 class="text-primary fw-bold">Subscription Parking History</h1>
+  <div class="card border-0 shadow-sm mt-4">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>License Plate</th>
+              <th>Lot</th>
+              <th>Spot</th>
+              <th>Time Entered</th>
+              <th>Time Left</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in parking_history %}
+            <tr>
+              <td>{{ record.license_plate.license_plate }}</td>
+              <td>{{ record.lot.lot_id }}</td>
+              <td>{{ record.spot.spot_id }}</td>
+              <td>{{ record.time_entered|date:"M d, Y, g:i A" }}</td>
+              <td>{{ record.time_left|date:"M d, Y, g:i A" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5" class="text-center text-muted">No parking history found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold text-primary">Subscriptions</h1>
+    <a href="{% url 'subscription_create' %}" class="btn btn-success rounded-pill px-4">
+      <i class="bi bi-plus-circle"></i> Add Subscription
+    </a>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Customer</th>
+              <th>License Plate</th>
+              <th>Lot</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for subscription in subscriptions %}
+            <tr>
+              <td>
+                {% if subscription.license_plate.customer %}
+                {{ subscription.license_plate.customer.first_name }}
+                {{ subscription.license_plate.customer.last_name }}
+                {% else %}
+                <span class="text-muted">No Customer</span>
+                {% endif %}
+              </td>
+              <td>{{ subscription.license_plate.license_plate }}</td>
+              <td>{{ subscription.lot.lot_id }}</td>
+              <td>{{ subscription.time_start|date:"M d, Y" }}</td>
+              <td>{{ subscription.time_end|date:"M d, Y" }}</td>
+              <td>${{ subscription.price }}</td>
+              <td>
+                {% if subscription.time_end < now %}
+                <span class="badge bg-danger">Expired</span>
+                {% else %}
+                <span class="badge bg-success">Active</span>
+                {% endif %}
+              </td>
+              <td>
+                <div class="d-flex gap-2">
+                  <a href="{% url 'subscription_update' subscription.subscription_id %}" class="btn btn-outline-warning btn-sm rounded-pill">
+                    <i class="bi bi-pencil"></i> Edit
+                  </a>
+                  <form action="{% url 'subscription_delete' subscription.subscription_id %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill">
+                      <i class="bi bi-trash"></i> Delete
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="8" class="text-center text-muted">No subscriptions found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
