@@ -6,3 +6,4 @@
 
    ```bash
    python manage.py runserver
+from CS5200/Final Project/dbgroup3.
